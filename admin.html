@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0c1124">
+<title>प्रशासन पैनल — बाबा भदेश्वर नाथ मंदिर, बस्ती</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0c1124;--night2:#151c38;--ash:#ece7dc;--saffron:#f2a33a;--navbg:rgba(12,17,36,.92);--muted:#a9adc0;--line:rgba(236,231,220,.16);--serif:"Tiro Devanagari Hindi","Noto Serif Devanagari",Georgia,serif;--sans:"Mukta","Noto Sans Devanagari","Nirmala UI",system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--night);color:var(--ash);font:17px/1.7 var(--sans)}
+.wrap{width:min(980px,calc(100% - 32px));margin:0 auto;padding:80px 0 60px}
+h1,h2,h3{font-family:var(--serif);font-weight:400}h1{font-size:34px}h2{font-size:24px;margin:28px 0 10px}
+a{color:var(--saffron)}
+.btn{display:inline-block;padding:9px 18px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ash);cursor:pointer;font:600 15px var(--sans);text-decoration:none;margin:4px 4px 0 0}
+.btn.p{background:var(--saffron);color:#1a1205;border-color:var(--saffron)}
+.btn.d{border-color:#7a2d2d;color:#ff9c9c}
+.btn.s{padding:4px 12px;font-size:13px}
+.box{border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:10px;margin-top:12px}
+input,select,textarea{padding:10px 12px;border-radius:6px;border:1px solid var(--line);background:var(--night);color:var(--ash);font:inherit;width:100%}
+label{font-size:14px;color:var(--muted)}
+.card{border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:10px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.card img{max-width:200px;max-height:140px;border-radius:6px}
+.card .body{flex:1;min-width:220px}
+.card .body p{margin:4px 0;white-space:pre-wrap}
+.m{font-size:13px;color:var(--muted)}
+.msg{color:var(--saffron);min-height:1.4em;font-size:15px}
+.err{color:#ff9c9c}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0}
+.tabs button{border:1px solid var(--line);background:none;color:var(--ash);border-radius:999px;padding:6px 16px;cursor:pointer;font:600 14px var(--sans)}
+.tabs button.on{background:var(--saffron);color:#1a1205;border-color:var(--saffron)}
+.pane{display:none}.pane.on{display:block}
+.top{position:fixed;inset:0 0 auto;z-index:10;background:var(--navbg);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{padding:0;height:56px;display:flex;align-items:center;gap:14px}
+.top b{font-family:var(--serif);color:var(--saffron);font-weight:400}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><b>भदेश्वर नाथ · प्रशासन</b><a href="./" style="margin-left:auto">मुख्य साइट</a></div></header>
+<div class="wrap">
+<h1>प्रशासन पैनल</h1>
+<p class="m">केवल मंदिर समिति के अधिकृत सदस्य। सार्वजनिक सबमिशन सब "प्रतीक्षा में" आते हैं और आपकी स्वीकृति के बाद ही साइट पर दिखते हैं।</p>
+
+<div id="loginBox" class="box" style="max-width:420px">
+  <h2 style="margin:0">लॉगिन</h2>
+  <label>ईमेल<input id="le" type="email" placeholder="committee@bhadeshwarnath.example" autocomplete="email"></label>
+  <label>पासवर्ड<input id="lp" type="password" placeholder="••••••••" autocomplete="current-password"></label>
+  <button class="btn p" id="loginBtn" type="button">लॉगिन</button>
+  <div id="loginMsg" class="msg"></div>
+  <p class="m">पहली बार? README के "Supabase setup" सेक्शन में दिए स्टेप से Supabase में उपयोगकर्ता बनाकर admins तालिका में जोड़ें।</p>
+</div>
+
+<div id="panel" style="display:none">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <h2 style="margin:0">स्वागत है, <span id="uEmail"></span></h2>
+    <button class="btn d" id="logoutBtn" type="button">लॉगआउट</button>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button data-pane="photos" class="on" type="button">फोटो अपलोड</button>
+    <button data-pane="photoMod" type="button">फोटो मॉडरेशन (<span id="cPhotoPend">0</span>)</button>
+    <button data-pane="posts" type="button">पोस्ट मॉडरेशन (<span id="cPostPend">0</span>)</button>
+    <button data-pane="comments" type="button">टिप्पणियाँ (<span id="cCommentPend">0</span>)</button>
+    <button data-pane="sankalp" type="button">संकल्प (<span id="cSankalpPend">0</span>)</button>
+    <button data-pane="ann" type="button">घोषणाएँ</button>
+    <button data-pane="live" type="button">लाइव लिंक</button>
+  </div>
+
+  <!-- PHOTO UPLOAD -->
+  <section class="pane on" id="pane-photos">
+    <h2>नई फोटो अपलोड (सीधे स्वीकृत)</h2>
+    <div class="box">
+      <input id="pf" type="file" accept="image/*" multiple>
+      <div class="grid2">
+        <input id="pcap" type="text" maxlength="60" placeholder="शीर्षक (हिंदी) — जैसे: महाशिवरात्रि का मेला">
+        <input id="pcapen" type="text" maxlength="80" placeholder="Caption (English, optional)">
+      </div>
+      <input id="palt" type="text" maxlength="120" placeholder="Alt text (सुलभता के लिए) — जैसे: महाशिवरात्रि को सजा हुआ मंदिर का दृश्य">
+      <select id="pcat"><option value="mandir">मंदिर</option><option value="aarti">आरती</option><option value="shringar">महादेव श्रृंगार</option><option value="mela">मेला / पर्व</option><option value="paris">परिसर</option><option value="anya">अन्य</option></select>
+      <button class="btn p" id="upBtn" type="button">अपलोड और स्वीकृत करें</button>
+      <div id="upMsg" class="msg"></div>
+      <p class="m">फोटो अपलोड से पहले 1600px / JPEG q0.82 तक auto-optimize होती है। केवल अपनी या अनुमति-प्राप्त फोटो अपलोड करें।</p>
+    </div>
+  </section>
+
+  <!-- PHOTO MODERATION -->
+  <section class="pane" id="pane-photoMod">
+    <h2>फोटो मॉडरेशन</h2>
+    <div id="photoPend"></div>
+    <h2>स्वीकृत फोटो</h2>
+    <div id="photoApproved"></div>
+  </section>
+
+  <!-- POST MODERATION -->
+  <section class="pane" id="pane-posts">
+    <h2>पोस्ट मॉडरेशन</h2>
+    <div id="postPend"></div>
+    <h2>स्वीकृत पोस्ट</h2>
+    <div id="postApproved"></div>
+  </section>
+
+  <!-- COMMENTS -->
+  <section class="pane" id="pane-comments">
+    <h2>टिप्पणी मॉडरेशन</h2>
+    <div id="commentPend"></div>
+  </section>
+
+  <!-- SANKALP -->
+  <section class="pane" id="pane-sankalp">
+    <h2>संकल्प मॉडरेशन</h2>
+    <div id="sankalpPend"></div>
+  </section>
+
+  <!-- ANNOUNCEMENTS -->
+  <section class="pane" id="pane-ann">
+    <h2>घोषणाएँ जोड़ें</h2>
+    <div class="box">
+      <input id="at" type="text" maxlength="120" placeholder="शीर्षक">
+      <textarea id="ab" rows="3" maxlength="1000" placeholder="घोषणा का विवरण"></textarea>
+      <div class="grid2">
+        <input id="af" type="datetime-local" aria-label="valid from">
+        <input id="at2" type="datetime-local" aria-label="valid to">
+      </div>
+      <label>प्राथमिकता (बड़ा = ऊपर)<input id="ap" type="number" value="0"></label>
+      <button class="btn p" id="annAdd" type="button">घोषणा जोड़ें</button>
+      <div id="annMsg" class="msg"></div>
+    </div>
+    <h2>सभी घोषणाएँ</h2>
+    <div id="annList"></div>
+  </section>
+
+  <!-- LIVE STREAMS -->
+  <section class="pane" id="pane-live">
+    <h2>लाइव दर्शन / आरती लिंक</h2>
+    <div class="box">
+      <input id="lt" type="text" maxlength="120" placeholder="शीर्षक — जैसे: संध्या आरती लाइव">
+      <input id="lu" type="url" maxlength="300" placeholder="URL (YouTube / Facebook live)">
+      <input id="lpf" type="text" maxlength="40" placeholder="प्लेटफॉर्म — जैसे: YouTube">
+      <label><input id="la" type="checkbox" style="width:auto"> अभी सक्रिय (is_active) — चालू होने पर साइट के "लाइव" सेक्शन में दिखेगा</label>
+      <button class="btn p" id="liveAdd" type="button">लिंक जोड़ें</button>
+      <div id="liveMsg" class="msg"></div>
+    </div>
+    <h2>सभी लिंक</h2>
+    <div id="liveList"></div>
+  </section>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="supabase.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const SB=window.__sb;
+const CFG=window.__CFG||{};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const msg=(el,t,err)=>{el.textContent=t;el.className=err?'msg err':'msg'};
+const mediaURL=p=>CFG.supabaseUrl+'/storage/v1/object/public/temple-photos/'+encodeURIComponent(p);
+const CATS={mandir:'मंदिर',aarti:'आरती',shringar:'महादेव श्रृंगार',mela:'मेला / पर्व',paris:'परिसर',anya:'अन्य'};
+const POSTCATS={bhakti:'भक्ति / अनुभव',prarthana:'प्रार्थना',shringar:'महादेव श्रृंगार',samachar:'समाचार / सूचना','khoya-paya':'खोया-पाया'};
+const DUMMY='00000000-0000-0000-0000-000000000000';
+
+if(!SB){msg($('loginMsg'),'config.js में Supabase URL/anon key सेट करें (README स्टेप 4)।',true);}
+
+// ---------- tabs ----------
+document.querySelector('.tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  $('pane-'+b.dataset.pane).classList.add('on');
+});
+
+// ---------- auth ----------
+async function isAdminUser(uid){
+  const {data}=await SB.from('admins').select('role').eq('user_id',uid).single();
+  return data?data.role:null;
+}
+async function refresh(){
+  const {data:{user}}=await SB.auth.getUser();
+  if(!user){$('loginBox').style.display='grid';$('panel').style.display='none';return false}
+  const role=await isAdminUser(user.id);
+  if(!role){msg($('loginMsg'),'आपका ईमेल admins तालिका में नहीं है। मंदिर समिति से संपर्क करें।',true);
+    await SB.auth.signOut();$('loginBox').style.display='grid';$('panel').style.display='none';return false}
+  $('loginBox').style.display='none';$('panel').style.display='block';
+  $('uEmail').textContent=user.email;
+  await Promise.all([loadPhotoModeration(),loadPostModeration(),loadCommentModeration(),loadSankalpModeration(),loadAnnouncements(),loadLiveStreams()]);
+  return true;
+}
+$('loginBtn').onclick=async()=>{
+  const e=$('le').value.trim(),p=$('lp').value;
+  if(!e||!p){msg($('loginMsg'),'ईमेल और पासवर्ड दोनों डालें।',true);return}
+  msg($('loginMsg'),'लॉगिन हो रहा है…');
+  const {error}=await SB.auth.signInWithPassword({email:e,password:p});
+  if(error){msg($('loginMsg'),'लॉगिन विफल: '+error.message,true);return}
+  await refresh();
+};
+$('logoutBtn').onclick=async()=>{await SB.auth.signOut();location.reload()};
+
+// ---------- photo upload ----------
+function resizeFile(file,maxSide=1600,quality=.82){
+  return new Promise((ok,no)=>{
+    const r=new FileReader();r.onerror=no;r.onload=()=>{
+      const im=new Image();im.onerror=no;im.onload=()=>{
+        const s=Math.min(1,maxSide/Math.max(im.width,im.height));
+        const cv=document.createElement('canvas');cv.width=Math.round(im.width*s);cv.height=Math.round(im.height*s);
+        cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);
+        cv.toBlob(b=>b?ok(b):no(new Error('blob')),'image/jpeg',quality);
+      };im.src=r.result};
+    r.readAsDataURL(file);
+  });
+}
+$('upBtn').onclick=async()=>{
+  const files=[...$('pf').files];
+  if(!files.length){msg($('upMsg'),'पहले फोटो चुनें।',true);return}
+  msg($('upMsg'),'अपलोड हो रही है…');
+  let n=0;
+  for(const f of files){
+    try{
+      const ext=(f.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
+      const path='photos/'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.'+ext;
+      const blob=await resizeFile(f);
+      const {error:ue}=await SB.storage.from('temple-photos').upload(path,blob,{contentType:'image/jpeg',cacheControl:'3600'});
+      if(ue)throw ue;
+      const {error:ie}=await SB.from('photos').insert({
+        storage_path:path,caption_hi:$('pcap').value.trim()||'मंदिर फोटो',caption_en:$('pcapen').value.trim(),
+        alt_text:$('palt').value.trim()||$('pcap').value.trim()||'बाबा भदेश्वर नाथ मंदिर की फोटो',
+        category:$('pcat').value,status:'approved'
+      });
+      if(ie)throw ie;
+      n++;
+    }catch(e){console.error(e);msg($('upMsg'),'"'+f.name+'" अपलोड नहीं हो सकी: '+e.message,true);}
+  }
+  if(n){$('pf').value='';$('pcap').value='';$('pcapen').value='';$('palt').value='';msg($('upMsg'),n+' फोटो स्वीकृत और सार्वजनिक दीर्घा में जोड़ी गईं। हर हर महादेव!');}
+  loadPhotoModeration();
+};
+
+// ---------- photo moderation ----------
+async function loadPhotoModeration(){
+  const pend=await SB.from('photos').select('*').eq('status','pending').order('created_at',{ascending:true});
+  const appr=await SB.from('photos').select('*').eq('status','approved').order('created_at',{ascending:false});
+  $('cPhotoPend').textContent=(pend.data||[]).length;
+  const pe=$('photoPend');
+  pe.innerHTML=(pend.data||[]).length?'':'<p class="m">प्रतीक्षा में कोई फोटो नहीं।</p>';
+  (pend.data||[]).forEach(p=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="body"><p><b>${esc(p.caption_hi)}</b> <span class="m">(${esc(CATS[p.category]||'')})</span></p><p class="m">अपलोड: ${esc(p.created_at||'').slice(0,16).replace('T',' ')}</p></div>
+      <div><a class="btn s" href="${mediaURL(p.storage_path)}" target="_blank" rel="noopener">देखें</a>
+      <button class="btn s p" data-a="approve">स्वीकृत</button>
+      <button class="btn s d" data-a="reject">अस्वीकार</button></div>`;
+    d.querySelector('[data-a=approve]').onclick=()=>setPhoto(p.id,'approved');
+    d.querySelector('[data-a=reject]').onclick=()=>setPhoto(p.id,'rejected');
+    pe.append(d);
+  });
+  const pa=$('photoApproved');pa.innerHTML='';
+  (appr.data||[]).forEach(p=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`${p.local_src?`<div class="body"><p class="m">बंडल्ड: ${esc(p.local_src)}</p>`:`<img src="${mediaURL(p.storage_path)}" alt="${esc(p.alt_text)}" loading="lazy">`}
+      <div class="body"><p><b>${esc(p.caption_hi)}</b></p><p class="m">${esc(CATS[p.category]||'')}</p></div>
+      <div><button class="btn s d" data-a="del">हटाएँ</button></div>`;
+    d.querySelector('[data-a=del]').onclick=async()=>{
+      if(!confirm('फोटो हटाएँ? Storage से भी मिटेगी।'))return;
+      if(p.storage_path)await SB.storage.from('temple-photos').remove([p.storage_path]);
+      await SB.from('photos').delete().eq('id',p.id);
+      loadPhotoModeration();
+    };
+    pa.append(d);
+  });
+}
+async function setPhoto(id,status){
+  await SB.from('photos').update({status,approved_at:new Date().toISOString(),approved_by:(await SB.auth.getUser()).data.user?.id}).eq('id',id);
+  loadPhotoModeration();
+}
+
+// ---------- post moderation ----------
+async function loadPostModeration(){
+  const pend=await SB.from('community_posts').select('*').eq('status','pending').order('created_at',{ascending:true});
+  const appr=await SB.from('community_posts').select('*').eq('status','approved').order('created_at',{ascending:false});
+  $('cPostPend').textContent=(pend.data||[]).length;
+  const pe=$('postPend');
+  pe.innerHTML=(pend.data||[]).length?'':'<p class="m">प्रतीक्षा में कोई पोस्ट नहीं।</p>';
+  (pend.data||[]).forEach(p=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="body"><p class="m">${esc(p.name||'भक्त')} · ${esc(POSTCATS[p.category]||p.category)} · ${esc((p.created_at||'').slice(0,16).replace('T',' '))}</p><p>${esc(p.body)}</p>${p.photo_path?`<img src="${mediaURL(p.photo_path)}" alt="पोस्ट की फोटो" loading="lazy">`:''}</div>
+      <div><button class="btn s p" data-a="approve">स्वीकृत</button><button class="btn s d" data-a="reject">अस्वीकार</button></div>`;
+    d.querySelector('[data-a=approve]').onclick=()=>setPost(p.id,'approved');
+    d.querySelector('[data-a=reject]').onclick=()=>setPost(p.id,'rejected');
+    pe.append(d);
+  });
+  const pa=$('postApproved');pa.innerHTML='';
+  (appr.data||[]).forEach(p=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="body"><p class="m">${esc(p.name||'भक्त')} · ${esc(POSTCATS[p.category]||p.category)}</p><p>${esc(p.body)}</p></div>
+      <div><button class="btn s d" data-a="del">हटाएँ</button></div>`;
+    d.querySelector('[data-a=del]').onclick=async()=>{
+      if(!confirm('पोस्ट हटाएँ?'))return;
+      if(p.photo_path)await SB.storage.from('temple-photos').remove([p.photo_path]);
+      await SB.from('community_posts').delete().eq('id',p.id);
+      loadPostModeration();
+    };
+    pa.append(d);
+  });
+}
+async function setPost(id,status){
+  await SB.from('community_posts').update({status,approved_at:new Date().toISOString(),approved_by:(await SB.auth.getUser()).data.user?.id}).eq('id',id);
+  loadPostModeration();
+}
+
+// ---------- comment moderation ----------
+async function loadCommentModeration(){
+  const pend=await SB.from('comments').select('*,community_posts(body)').eq('status','pending').order('created_at',{ascending:true});
+  $('cCommentPend').textContent=(pend.data||[]).length;
+  const pe=$('commentPend');
+  pe.innerHTML=(pend.data||[]).length?'':'<p class="m">प्रतीक्षा में कोई टिप्पणी नहीं।</p>';
+  (pend.data||[]).forEach(c=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="body"><p class="m">${esc(c.name||'भक्त')} · पोस्ट: ${esc((c.community_posts&&c.community_posts.body||'').slice(0,60))}</p><p>${esc(c.body)}</p></div>
+      <div><button class="btn s p" data-a="approve">स्वीकृत</button><button class="btn s d" data-a="reject">अस्वीकार</button></div>`;
+    d.querySelector('[data-a=approve]').onclick=()=>setComment(c.id,'approved');
+    d.querySelector('[data-a=reject]').onclick=()=>setComment(c.id,'rejected');
+    pe.append(d);
+  });
+}
+async function setComment(id,status){await SB.from('comments').update({status}).eq('id',id);loadCommentModeration();}
+
+// ---------- sankalp moderation ----------
+async function loadSankalpModeration(){
+  const pend=await SB.from('sankalp').select('*').eq('status','pending').order('created_at',{ascending:true});
+  $('cSankalpPend').textContent=(pend.data||[]).length;
+  const pe=$('sankalpPend');
+  pe.innerHTML=(pend.data||[]).length?'':'<p class="m">प्रतीक्षा में कोई संकल्प नहीं।</p>';
+  (pend.data||[]).forEach(s=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="body"><p class="m">${esc(s.name||'भक्त')} · ${esc((s.created_at||'').slice(0,16).replace('T',' '))}</p><p>${esc(s.body)}</p></div>
+      <div><button class="btn s p" data-a="approve">स्वीकृत</button><button class="btn s d" data-a="reject">अस्वीकार</button></div>`;
+    d.querySelector('[data-a=approve]').onclick=async()=>{await SB.from('sankalp').update({status:'approved'}).eq('id',s.id);loadSankalpModeration();};
+    d.querySelector('[data-a=reject]').onclick=async()=>{await SB.from('sankalp').update({status:'rejected'}).eq('id',s.id);loadSankalpModeration();};
+    pe.append(d);
+  });
+}
+
+// ---------- announcements ----------
+$('annAdd').onclick=async()=>{
+  const t=$('at').value.trim(),b=$('ab').value.trim();
+  if(!t||!b){msg($('annMsg'),'शीर्षक और विवरण दोनों ज़रूरी हैं।',true);return}
+  const vf=$('af').value?new Date($('af').value).toISOString():null;
+  const vt=$('at2').value?new Date($('at2').value).toISOString():null;
+  const {error}=await SB.from('announcements').insert({title:t,body:b,priority:+$('ap').value||0,valid_from:vf,valid_to:vt,status:'approved'});
+  if(error){msg($('annMsg'),error.message,true);return}
+  $('at').value='';$('ab').value='';$('ap').value='0';
+  msg($('annMsg'),'घोषणा जोड़ी गई।');loadAnnouncements();
+};
+async function loadAnnouncements(){
+  const {data}=await SB.from('announcements').select('*').order('created_at',{ascending:false});
+  const el=$('annList');el.innerHTML='';
+  (data||[]).forEach(a=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="body"><p><b>${esc(a.title)}</b> <span class="m">status: ${esc(a.status)}${a.valid_from||a.valid_to?` · ${a.valid_from?('से '+a.valid_from.slice(0,10)):''}${a.valid_to?(' तक '+a.valid_to.slice(0,10)):''}`:''}</span></p><p>${esc(a.body)}</p></div>
+      <div><button class="btn s ${a.status==='approved'?'':'p'}" data-a="toggle">${a.status==='approved'?'छुपाएँ (draft)':'स्वीकृत करें'}</button><button class="btn s d" data-a="del">हटाएँ</button></div>`;
+    d.querySelector('[data-a=toggle]').onclick=async()=>{await SB.from('announcements').update({status:a.status==='approved'?'draft':'approved'}).eq('id',a.id);loadAnnouncements();};
+    d.querySelector('[data-a=del]').onclick=async()=>{if(!confirm('घोषणा हटाएँ?'))return;await SB.from('announcements').delete().eq('id',a.id);loadAnnouncements();};
+    el.append(d);
+  });
+}
+
+// ---------- live streams ----------
+$('liveAdd').onclick=async()=>{
+  const t=$('lt').value.trim(),u=$('lu').value.trim();
+  if(!t||!u){msg($('liveMsg'),'शीर्षक और URL दोनों ज़रूरी हैं।',true);return}
+  if(!/^https?:\/\//.test(u)){msg($('liveMsg'),'URL http(s):// से शुरू होनी चाहिए।',true);return}
+  const {error}=await SB.from('live_streams').insert({title:t,url:u,platform:$('lpf').value.trim(),is_active:$('la').checked,status:'approved'});
+  if(error){msg($('liveMsg'),error.message,true);return}
+  $('lt').value='';$('lu').value='';$('lpf').value='';$('la').checked=false;
+  msg($('liveMsg'),'लिंक जोड़ा गया।');loadLiveStreams();
+};
+async function loadLiveStreams(){
+  const {data}=await SB.from('live_streams').select('*').order('created_at',{ascending:false});
+  const el=$('liveList');el.innerHTML='';
+  (data||[]).forEach(s=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="body"><p><b>${esc(s.title)}</b> <span class="m">${esc(s.platform||'')} · ${s.is_active?'सक्रिय':'निष्क्रिय'}</span></p><p class="m"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></p></div>
+      <div><button class="btn s ${s.is_active?'':'p'}" data-a="toggle">${s.is_active?'निष्क्रिय करें':'सक्रिय करें'}</button><button class="btn s d" data-a="del">हटाएँ</button></div>`;
+    d.querySelector('[data-a=toggle]').onclick=async()=>{await SB.from('live_streams').update({is_active:!s.is_active}).eq('id',s.id);loadLiveStreams();};
+    d.querySelector('[data-a=del]').onclick=async()=>{if(!confirm('लिंक हटाएँ?'))return;await SB.from('live_streams').delete().eq('id',s.id);loadLiveStreams();};
+    el.append(d);
+  });
+}
+
+// ---------- session ----------
+if(SB){
+  SB.auth.onAuthStateChange(()=>refresh());
+  refresh();
+}else{
+  $('loginBtn').disabled=true;
+}
+</script>
+</body>
+</html>

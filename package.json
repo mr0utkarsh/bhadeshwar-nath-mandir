@@ -1,0 +1,11 @@
+{
+  "name": "bhadeshwar-nath-mandir",
+  "version": "1.0.0",
+  "private": true,
+  "description": "बाबा भदेश्वर नाथ मंदिर, बस्ती — Hindi-first official temple website (Supabase-backed, static hosting)",
+  "scripts": {
+    "start": "npx serve .",
+    "upload-photos": "node scripts/upload-photos.js"
+  },
+  "devDependencies": {}
+}
