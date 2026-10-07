@@ -22,6 +22,7 @@
 <meta name="twitter:image" content="https://mr0utkarsh.github.io/bhadeshwar-nath-mandir/assets/temple-festival.jpg">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="assets/icon-192.png">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
@@ -142,11 +143,55 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 @keyframes blink{50%{opacity:.25}}
 /* demo note */
 #demoNote{display:none;background:#3a2a07;color:#f6e3bf;font-size:14px;text-align:center;padding:6px 12px}
+/* logo */
+.logo{display:inline-flex;align-items:center;gap:8px;color:var(--saffron);flex:none}
+.logo svg{width:30px;height:30px;animation:spinSlow 24s linear infinite}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+/* back to top */
+#topBtn{position:fixed;right:18px;bottom:18px;z-index:20;width:48px;height:48px;border-radius:50%;border:1px solid var(--saffron);background:var(--navbg);color:var(--saffron);font-size:22px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;backdrop-filter:blur(8px)}
+#topBtn.show{opacity:1;pointer-events:auto}
+#topBtn:hover{transform:translateY(-4px)}
+/* bhakti player */
+.player{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;margin-top:30px}
+@media(max-width:860px){.player{grid-template-columns:1fr}}
+.nowbox{border:1px solid var(--saffron);border-radius:12px;padding:20px;background:linear-gradient(135deg,rgba(242,163,58,.12),rgba(79,154,160,.08))}
+.nowbox h3{font-size:22px;margin:0 0 4px}
+.nowbox .artist{color:var(--muted);font-size:14px}
+.eq{display:flex;gap:4px;align-items:flex-end;height:44px;margin:16px 0}
+.eq i{flex:1;background:linear-gradient(180deg,var(--saffron),var(--river));border-radius:2px;height:12%;animation:eq 1s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.12s}.eq i:nth-child(3){animation-delay:.24s}.eq i:nth-child(4){animation-delay:.36s}.eq i:nth-child(5){animation-delay:.48s}.eq i:nth-child(6){animation-delay:.6s}.eq i:nth-child(7){animation-delay:.72s}
+.eq.paused i{animation-play-state:paused;height:8%}
+@keyframes eq{0%,100%{height:12%}50%{height:96%}}
+.plist{display:flex;flex-direction:column;gap:6px;max-height:340px;overflow:auto;padding-right:4px}
+.pitem{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:9px 14px;cursor:pointer;background:none;color:var(--ash);font:600 15px var(--sans);text-align:left;transition:border-color .2s,background .2s}
+.pitem:hover{border-color:var(--saffron)}
+.pitem.on{border-color:var(--saffron);background:rgba(242,163,58,.1)}
+.pitem small{color:var(--muted);font-weight:400}
+.ytgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:26px}
+.ytgrid iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px}
+/* jaap counter */
+#cnt{transition:transform .15s}
+#cnt.pop{transform:scale(1.25)}
+/* nav shrink */
+nav .wrap{transition:height .25s}
+nav.shrunk .wrap{height:46px}
+/* stats */
+.stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px}
+.stat{flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center}
+.stat b{font:400 34px var(--serif);color:var(--saffron);display:block}
+.stat span{color:var(--muted);font-size:14px}
+/* listen button */
+.listen{border:1px solid var(--line);background:none;color:var(--saffron);border-radius:999px;padding:3px 12px;cursor:pointer;font:600 13px var(--sans);margin-top:8px}
+.listen:hover{border-color:var(--saffron)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
 <a class="skip" href="#content">सीधे मुख्य जानकारी पर जाएँ</a>
-<nav><div class="wrap"><b>भदेश्वर नाथ</b><a href="#itihas" data-t="n_hist">इतिहास</a><a href="#mantra" data-t="n_mantra">मंत्र</a><a href="#gallery" data-t="n_gal">चित्र दीर्घा</a><a href="#aaspas" data-t="n_near">आस-पास</a><a href="#naksha" data-t="n_map">नक्शा</a><a href="#live" data-t="n_live">लाइव</a><a href="#soochna" data-t="n_info">सूचना</a><a href="#bhakt" data-t="n_comm">भक्त मंच</a><a href="#team" data-t="n_team">टीम</a>
+<nav><div class="wrap"><a class="logo" href="#top" aria-label="बाबा भदेश्वर नाथ मंदिर — होम"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="22" stroke="#f2a33a" stroke-width="2"/><path d="M24 8 L27.5 20 L24 17 L20.5 20 Z" fill="#f2a33a"/><path d="M20 22 h8 l-1.5 14 a4 4 0 0 1 -5 0 Z" fill="#f2a33a"/><path d="M24 24 c-2.5 0 -4 1.8 -4 4 c0 2.6 2 4 4 4 s4 -1.4 4 -4 c0 -2.2 -1.5 -4 -4 -4 Z" fill="#0c1124" stroke="#f2a33a" stroke-width="1.4"/><path d="M12 40 q6 -5 12 0 q6 5 12 0" stroke="#4f9aa0" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M10 44 q7 -5 14 0 q7 5 14 0" stroke="#4f9aa0" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".7"/></svg><b>भदेश्वर नाथ</b></a><a href="#itihas" data-t="n_hist">इतिहास</a><a href="#mantra" data-t="n_mantra">मंत्र</a><a href="#gallery" data-t="n_gal">चित्र दीर्घा</a><a href="#sangeet" data-t="n_sang">भक्ति संगीत</a><a href="#aaspas" data-t="n_near">आस-पास</a><a href="#naksha" data-t="n_map">नक्शा</a><a href="#live" data-t="n_live">लाइव</a><a href="#soochna" data-t="n_info">सूचना</a><a href="#bhakt" data-t="n_comm">भक्त मंच</a><a href="#team" data-t="n_team">टीम</a>
 <span class="tools"><input id="q" type="search" placeholder="खोजें" aria-label="खोजें"><button id="lg" type="button">EN</button><button id="th" type="button" aria-label="Theme">☀/☾</button></span><a class="admin" href="admin.html" data-t="n_admin">प्रशासन</a></div></nav>
 
 <div id="annBar" role="status"><div class="wrap"><span class="tag" data-t="ann_tag">घोषणा</span><span id="annText"></span></div></div>
@@ -173,26 +218,30 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 <li><b>महाशिवरात्रि का मेला</b>हर साल शिवरात्रि पर यहाँ मेला लगता है; सावन और सोमवार को भी भक्त बड़ी संख्या में आते हैं।</li>
 <li><b>झारकेश्वर बाबा की मान्यता</b>लोकमान्यता: शिवलिंग को 'झारकेश्वर बाबा' भी कहा जाता है और कथा है कि शिवलिंग का आकार आज भी बढ़ता है (स्रोत: MyAdhyatm)।</li>
 <li><b>1728 की मान्यता</b>कथा के अनुसार 1728 में बस्ती के राजा ने पूर्वजों को प्रसादपुर से भदेश्वरनाथ लाकर यहाँ पूजा करने की शुरुआत की (स्रोत: MyAdhyatm)।</li>
+<li><b>अज्ञातवास और युधिष्ठिर</b>अमर उजाला के वर्णन के अनुसार, महाभारत काल में द्यूत के बाद अज्ञातवास के दौरान राजा युधिष्ठिर ने यहाँ शिवलिंग की स्थापना कर पूजा की — यह कथा है, प्रमाणित इतिहास नहीं।</li>
+<li><b>ब्रिटिश कब्ज़े की कोशिश</b>लोकश्रुति: अंग्रेज़ सेना मंदिर और आसपास के क्षेत्र पर कब्ज़ा करना चाहती थी, पर दैवीय प्रकोप के कारण पीछे हटी (स्रोत: अमर उजाला)।</li>
+<li><b>चोरों और पत्थर का पहिया</b>लोकश्रुति: शिवलिंग को खुदाई से निकालने का प्रयास हुआ; अंत न मिलने पर भागते चोर की गाड़ी का पहिया वहीं धंसकर पत्थर बन गया, जो आज भी दिखाई देता है (स्रोत: अमर उजाला)।</li>
+<li><b>सावन में सरयू जल</b>श्रावण मास में भक्त अयोध्या से सरयू नदी का जल लेकर यहाँ जलाभिषेक करते हैं; सावन और सोमवार को लाखों की संख्या में भक्त आते हैं (स्रोत: अमर उजाला, ज्ञान का स्रोत)।</li>
 </ul>
-<p class="note">ये कथाएँ लोकमान्यता और जनश्रुति हैं, प्रमाणित ऐतिहासिक तथ्य नहीं। स्रोत: <a href="https://basti.nic.in/tourist-place/bhadeshwer-nath/" target="_blank" rel="noopener">basti.nic.in</a> (जिला प्रशासन) · <a href="https://myadhyatm.com/bhadeshwar-nath-mandir-kakraeebasti/" target="_blank" rel="noopener">MyAdhyatm</a> · <a href="https://inmap24.com/hindu-temple/uttar-pradesh/441973" target="_blank" rel="noopener">inmap24 / Google Maps</a>। दर्शन का समय स्थानीय रूप से पूछ लें।</p>
+<p class="note">ये कथाएँ लोकमान्यता और जनश्रुति हैं, प्रमाणित ऐतिहासिक तथ्य नहीं। स्रोत: <a href="https://basti.nic.in/tourist-place/bhadeshwer-nath/" target="_blank" rel="noopener">basti.nic.in</a> (जनपद प्रशासन) · <a href="https://myadhyatm.com/bhadeshwar-nath-mandir-kakraeebasti/" target="_blank" rel="noopener">MyAdhyatm</a> · <a href="https://www.amarujala.com/photo-gallery/gorakhpur/sawan-2022-special-story-of-baba-bhadeshwar-nath-temple-in-basti" target="_blank" rel="noopener">अमर उजाला</a> · <a href="https://inmap24.com/hindu-temple/uttar-pradesh/441973" target="_blank" rel="noopener">inmap24 / Google Maps</a>। दर्शन का समय स्थानीय रूप से पूछ लें।</p>
 </div>
 <figure style="margin:0"><img src="assets/temple-aarti.jpg" alt="पर्व पर सजा हुआ बाबा भदेश्वर नाथ मंदिर, शाम के समय" loading="lazy"><figcaption class="cap">पर्व पर सजा मंदिर (फोटो: जिला बस्ती पोर्टल)</figcaption></figure>
 </div></section>
 
 <section id="mantra" class="band"><div class="wrap">
 <h2 data-t="h_mantra">गायत्री मंत्र</h2>
-<p class="lead">हर कार्ड खोलकर मंत्र पढ़ें। पाठ-भेद अलग-अलग परंपराओं में थोड़े भिन्न मिलते हैं।</p>
+<p class="lead">हर कार्ड खोलकर मंत्र पढ़ें; "सुनें" दबाकर ब्राउज़र की आवाज़ में सुनें (कोई API key नहीं चाहिए)। पाठ-भेद अलग-अलग परंपराओं में थोड़े भिन्न मिलते हैं।</p>
 <div class="grid">
-<details open><summary>गायत्री मंत्र (वेदमाता)</summary><div><p class="sk">ॐ भूर्भुवः स्वः । तत्सवितुर्वरेण्यं । भर्गो देवस्य धीमहि । धियो यो नः प्रचोदयात् ॥</p><small>हम उस देव सविता के श्रेष्ठ तेज का ध्यान करते हैं, जो हमारी बुद्धि को सही दिशा दे।</small></div></details>
-<details><summary>शिव गायत्री</summary><div><p class="sk">ॐ तत्पुरुषाय विद्महे महादेवाय धीमहि । तन्नो रुद्रः प्रचोदयात् ॥</p><small>हम तत्पुरुष को जानें, महादेव का ध्यान करें; रुद्र हमें प्रेरित करें।</small></div></details>
-<details><summary>रुद्र गायत्री</summary><div><p class="sk">ॐ तत्पुरुषाय विद्महे सहस्राक्षाय महादेवाय धीमहि । तन्नो रुद्रः प्रचोदयात् ॥</p><small>रुद्र रूप महादेव के लिए।</small></div></details>
-<details><summary>नंदी गायत्री</summary><div><p class="sk">ॐ तत्पुरुषाय विद्महे चक्रतुण्डाय धीमहि । तन्नो नन्दिः प्रचोदयात् ॥</p><small>शिव-वाहन नंदी के लिए।</small></div></details>
-<details><summary>पार्वती (दुर्गा) गायत्री</summary><div><p class="sk">ॐ गिरिजायै विद्महे शिवप्रियायै धीमहि । तन्नो दुर्गा प्रचोदयात् ॥</p><small>गिरिजा, शिव की प्रिया, माँ दुर्गा के लिए।</small></div></details>
-<details><summary>गणेश गायत्री</summary><div><p class="sk">ॐ एकदन्ताय विद्महे वक्रतुण्डाय धीमहि । तन्नो दन्तिः प्रचोदयात् ॥</p><small>शिवपुत्र श्री गणेश के लिए।</small></div></details>
-<details><summary>हनुमान गायत्री</summary><div><p class="sk">ॐ आञ्जनेयाय विद्महे वायुपुत्राय धीमहि । तन्नो हनुमत् प्रचोदयात् ॥</p><small>रुद्रावतार हनुमान जी के लिए।</small></div></details>
-<details><summary>सूर्य गायत्री</summary><div><p class="sk">ॐ भास्कराय विद्महे दिवाकराय धीमहि । तन्नः सूर्यः प्रचोदयात् ॥</p><small>सूर्य देव के लिए।</small></div></details>
-<details><summary>विष्णु गायत्री</summary><div><p class="sk">ॐ नारायणाय विद्महे वासुदेवाय धीमहि । तन्नो विष्णुः प्रचोदयात् ॥</p><small>भगवान विष्णु के लिए।</small></div></details>
-<details><summary>महामृत्युंजय मंत्र</summary><div><p class="sk">ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम् । उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय माऽमृतात् ॥</p><small>गायत्री नहीं, पर शिव-उपासना का प्रमुख मंत्र।</small></div></details>
+<details open><summary>गायत्री मंत्र (वेदमाता)</summary><div><p class="sk" data-spk="ॐ भूर्भुवः स्वः । तत्सवितुर्वरेण्यं । भर्गो देवस्य धीमहि । धियो यो नः प्रचोदयात्">ॐ भूर्भुवः स्वः । तत्सवितुर्वरेण्यं । भर्गो देवस्य धीमहि । धियो यो नः प्रचोदयात् ॥</p><small>हम उस देव सविता के श्रेष्ठ तेज का ध्यान करते हैं, जो हमारी बुद्धि को सही दिशा दे।</small><button class="listen" type="button">▶ सुनें</button></div></details>
+<details><summary>शिव गायत्री</summary><div><p class="sk" data-spk="ॐ तत्पुरुषाय विद्महे महादेवाय धीमहि । तन्नो रुद्रः प्रचोदयात्">ॐ तत्पुरुषाय विद्महे महादेवाय धीमहि । तन्नो रुद्रः प्रचोदयात् ॥</p><small>हम तत्पुरुष को जानें, महादेव का ध्यान करें; रुद्र हमें प्रेरित करें।</small><button class="listen" type="button">▶ सुनें</button></div></details>
+<details><summary>रुद्र गायत्री</summary><div><p class="sk" data-spk="ॐ तत्पुरुषाय विद्महे सहस्राक्षाय महादेवाय धीमहि । तन्नो रुद्रः प्रचोदयात्">ॐ तत्पुरुषाय विद्महे सहस्राक्षाय महादेवाय धीमहि । तन्नो रुद्रः प्रचोदयात् ॥</p><small>रुद्र रूप महादेव के लिए।</small><button class="listen" type="button">▶ सुनें</button></div></details>
+<details><summary>नंदी गायत्री</summary><div><p class="sk" data-spk="ॐ तत्पुरुषाय विद्महे चक्रतुण्डाय धीमहि । तन्नो नन्दिः प्रचोदयात्">ॐ तत्पुरुषाय विद्महे चक्रतुण्डाय धीमहि । तन्नो नन्दिः प्रचोदयात् ॥</p><small>शिव-वाहन नंदी के लिए।</small><button class="listen" type="button">▶ सुनें</button></div></details>
+<details><summary>पार्वती (दुर्गा) गायत्री</summary><div><p class="sk" data-spk="ॐ गिरिजायै विद्महे शिवप्रियायै धीमहि । तन्नो दुर्गा प्रचोदयात्">ॐ गिरिजायै विद्महे शिवप्रियायै धीमहि । तन्नो दुर्गा प्रचोदयात् ॥</p><small>गिरिजा, शिव की प्रिया, माँ दुर्गा के लिए।</small><button class="listen" type="button">▶ सुनें</button></div></details>
+<details><summary>गणेश गायत्री</summary><div><p class="sk" data-spk="ॐ एकदन्ताय विद्महे वक्रतुण्डाय धीमहि । तन्नो दन्तिः प्रचोदयात्">ॐ एकदन्ताय विद्महे वक्रतुण्डाय धीमहि । तन्नो दन्तिः प्रचोदयात् ॥</p><small>शिवपुत्र श्री गणेश के लिए।</small><button class="listen" type="button">▶ सुनें</button></div></details>
+<details><summary>हनुमान गायत्री</summary><div><p class="sk" data-spk="ॐ आञ्जनेयाय विद्महे वायुपुत्राय धीमहि । तन्नो हनुमत् प्रचोदयात्">ॐ आञ्जनेयाय विद्महे वायुपुत्राय धीमहि । तन्नो हनुमत् प्रचोदयात् ॥</p><small>रुद्रावतार हनुमान जी के लिए।</small><button class="listen" type="button">▶ सुनें</button></div></details>
+<details><summary>सूर्य गायत्री</summary><div><p class="sk" data-spk="ॐ भास्कराय विद्महे दिवाकराय धीमहि । तन्नः सूर्यः प्रचोदयात्">ॐ भास्कराय विद्महे दिवाकराय धीमहि । तन्नः सूर्यः प्रचोदयात् ॥</p><small>सूर्य देव के लिए।</small><button class="listen" type="button">▶ सुनें</button></div></details>
+<details><summary>विष्णु गायत्री</summary><div><p class="sk" data-spk="ॐ नारायणाय विद्महे वासुदेवाय धीमहि । तन्नो विष्णुः प्रचोदयात्">ॐ नारायणाय विद्महे वासुदेवाय धीमहि । तन्नो विष्णुः प्रचोदयात् ॥</p><small>भगवान विष्णु के लिए।</small><button class="listen" type="button">▶ सुनें</button></div></details>
+<details><summary>महामृत्युंजय मंत्र</summary><div><p class="sk" data-spk="ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम् । उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय माऽमृतात्">ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम् । उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय माऽमृतात् ॥</p><small>गायत्री नहीं, पर शिव-उपासना का प्रमुख मंत्र।</small><button class="listen" type="button">▶ सुनें</button></div></details>
 </div></div></section>
 
 <section id="shlok"><div class="wrap">
@@ -206,7 +255,13 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 
 <section id="gallery" class="band"><div class="wrap">
 <h2 data-t="h_gal">चित्र दीर्घा और महादेव श्रृंगार</h2>
-<p class="lead">मंदिर, शिवलिंग, आरती, श्रृंगार, मेला और परिसर की फोटो — असली सोर्स (जनपद बस्ती पोर्टल, Google Maps, MyAdhyatm) से। कोई भी भक्त बिना लॉगिन के फोटो भेज सकता है, तुरंत सार्वजनिक दीर्घा में जुड़ जाती है।</p>
+<p class="lead">मंदिर, शिवलिंग, आरती, श्रृंगार, मेला और परिसर की <b id="galCount">37 असली फोटो</b> — स्रोत: जनपद बस्ती पोर्टल, Google Maps उपयोगकर्ता, MyAdhyatm, अमर उजाला और Wikimedia Commons (CC)। कोई भी भक्त बिना लॉगिन के अपनी फोटो भेज सकता है, तुरंत सार्वजनिक दीर्घा में जुड़ जाती है।</p>
+<div class="stats" id="galStats">
+<div class="stat"><b data-count="28">0</b><span>मंदिर / शिवलिंग / मेला फोटो</span></div>
+<div class="stat"><b data-count="9">0</b><span>क्षेत्र एवं पर्यटन फोटो</span></div>
+<div class="stat"><b data-count="5">0</b><span>असली स्रोत</span></div>
+<div class="stat"><b data-count="100">0</b><span>% असली, कोई नकली फोटो नहीं</span></div>
+</div>
 <div class="chips" id="galChips" role="group" aria-label="श्रेणी फ़िल्टर">
 <button data-cat="all" class="on" data-t="cat_all">सभी</button>
 <button data-cat="mandir" data-t="cat_mandir">मंदिर</button>
@@ -214,6 +269,7 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 <button data-cat="shringar" data-t="cat_shringar">श्रृंगार</button>
 <button data-cat="mela" data-t="cat_mela">मेला</button>
 <button data-cat="paris" data-t="cat_paris">परिसर</button>
+<button data-cat="kshetra" data-t="cat_kshetra">क्षेत्र</button>
 </div>
 <div class="gal" id="gal"></div>
 <div class="up">
@@ -227,6 +283,32 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 <div id="msg" role="status"></div>
 <small class="cap">फोटो अपलोड होते ही सार्वजनिक दीर्घा में जुड़ जाती है — कोई लॉगिन या स्वीकृति नहीं चाहिए। कृपया केवल अपनी या अनुमति-प्राप्त फोटो भेजें; अनुचित फोटो मंदिर समिति हटा सकती है।</small>
 </div></div></section>
+
+<section id="sangeet" class="band"><div class="wrap">
+<h2 data-t="h_sang">भक्ति संगीत और मंत्र धुन</h2>
+<p class="lead">असली भजन और आरती MP3 — सभी Creative Commons / Public Domain लाइसेंस वाले, स्रोत: Internet Archive। नीचे यूट्यूब पर लोकप्रिय शिव भजन भी सुनें (वीडियो यूट्यूब पर ही रहते हैं)।</p>
+<div class="player">
+<div class="nowbox reveal">
+<h3 id="pTitle">शिव नाम है जीवन हमारा</h3>
+<div class="artist" id="pArtist">महंत राजेश कुमार तिवारी · Public Domain Mark 1.0</div>
+<div class="eq paused" id="pEq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<audio id="pAudio" preload="metadata"></audio>
+<div class="btns" style="margin-top:10px;animation:none"><button class="btn p" id="pPlay" type="button">▶ बजाएँ</button><button class="btn" id="pPrev" type="button">|◀ पिछला</button><button class="btn" id="pNext" type="button">अगला ▶|</button></div>
+<div class="cap" id="pTime">0:00 / 0:00</div>
+</div>
+<div class="plist reveal" id="pList" role="list" aria-label="भजन सूची"></div>
+</div>
+<h3 style="margin-top:44px" data-t="h_yt">यूट्यूब पर लोकप्रिय शिव भजन</h3>
+<p class="cap">यूट्यूब एम्बेड — मूल वीडियो और कॉपीराइट यूट्यूब/कलाकार के पास; हम कोई गाना होस्ट नहीं करते।</p>
+<div class="ytgrid">
+<iframe title="Om Namah Shivaya 108 Times — Daily Chants" loading="lazy" src="https://www.youtube-nocookie.com/embed/ccBcAWE_lIY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe title="Mahamrityunjaya Mantra 108 Times — Rajshri Soul" loading="lazy" src="https://www.youtube-nocookie.com/embed/XXRcHfrL7SQ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe title="Shiv Tandav Stotram — Shankar Mahadevan" loading="lazy" src="https://www.youtube-nocookie.com/embed/S980-z1qx3g" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe title="Om Jai Shiv Omkara — Anuradha Paudwal" loading="lazy" src="https://www.youtube-nocookie.com/embed/BhwOproElxU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe title="Om Tryambakam Yajamahe — Rajshri Soul" loading="lazy" src="https://www.youtube-nocookie.com/embed/gdKm1fZzMgI" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe title="Om Namah Shivaya — संगीत सूची" loading="lazy" src="https://www.youtube-nocookie.com/embed/videoseries?list=PLkK7mQB497b3D4mEp4sU42GJlIF5xWppT" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+</div></section>
 
 <section id="aaspas" class="band"><div class="wrap">
 <h2 data-t="h_near">आस-पास के लोकप्रिय स्थल</h2>
@@ -324,7 +406,13 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 </div></section>
 
 </main>
-<footer>हर हर महादेव · बाबा भदेश्वर नाथ मंदिर, बस्ती · <a href="admin.html">प्रशासन</a> · <a href="sitemap.xml">sitemap</a> · Developed by Utkarsh Giri</footer>
+<footer><div class="wrap" style="text-align:center">
+<a class="logo" href="#top" aria-label="होम"><svg viewBox="0 0 48 48" width="34" height="34" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="22" stroke="#f2a33a" stroke-width="2"/><path d="M24 8 L27.5 20 L24 17 L20.5 20 Z" fill="#f2a33a"/><path d="M20 22 h8 l-1.5 14 a4 4 0 0 1 -5 0 Z" fill="#f2a33a"/><path d="M24 24 c-2.5 0 -4 1.8 -4 4 c0 2.6 2 4 4 4 s4 -1.4 4 -4 c0 -2.2 -1.5 -4 -4 -4 Z" fill="#0c1124" stroke="#f2a33a" stroke-width="1.4"/><path d="M12 40 q6 -5 12 0 q6 5 12 0" stroke="#4f9aa0" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M10 44 q7 -5 14 0 q7 5 14 0" stroke="#4f9aa0" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".7"/></svg></a>
+<p style="margin:10px 0 4px">हर हर महादेव · बाबा भदेश्वर नाथ मंदिर, काकरी, बस्ती (उत्तर प्रदेश)</p>
+<p style="margin:0"><a href="admin.html">प्रशासन</a> · <a href="sitemap.xml">sitemap</a> · <a href="https://github.com/mr0utkarsh/bhadeshwar-nath-mandir" target="_blank" rel="noopener">GitHub</a> · <a href="https://mr0utkarsh.github.io/bhadeshwar-nath-mandir/" target="_blank" rel="noopener">Live</a> · Developed by Utkarsh Giri</p>
+</div></footer>
+
+<button id="topBtn" type="button" aria-label="ऊपर जाएँ">↑</button>
 
 <dialog id="lb"><button class="btn" id="lx" type="button">✕</button><img alt=""></dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -343,7 +431,7 @@ const W=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(
 const fmtD=iso=>{try{return new Date(iso).toLocaleDateString('hi-IN',{day:'numeric',month:'long',year:'numeric'})}catch(e){return''}};
 const mediaURL=p=>CFG.supabaseUrl+'/storage/v1/object/public/temple-photos/'+encodeURIComponent(p);
 const DUMMY='00000000-0000-0000-0000-000000000000';
-const CATS={mandir:'मंदिर',aarti:'आरती',shringar:'महादेव श्रृंगार',mela:'मेला / पर्व',paris:'परिसर',anya:'अन्य'};
+const CATS={mandir:'मंदिर',aarti:'आरती',shringar:'महादेव श्रृंगार',mela:'मेला / पर्व',paris:'परिसर',kshetra:'क्षेत्र / पर्यटन',anya:'अन्य'};
 
 // ---------- petals ----------
 const hero=document.querySelector('.hero');
@@ -357,7 +445,7 @@ $('jr').onclick=()=>{c=0;cn.textContent=0;try{localStorage.setItem('jaap',0)}cat
 // ---------- theme + language ----------
 const root=document.documentElement;try{const t=localStorage.getItem('th');if(t)root.dataset.theme=t}catch(e){}
 $('th').onclick=()=>{const t=root.dataset.theme==='light'?'dark':'light';root.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}};
-const EN={n_hist:'History',n_mantra:'Mantras',n_gal:'Gallery',n_near:'Nearby',n_map:'Map',n_live:'Live',n_info:'Notices',n_comm:'Community',n_team:'Team',n_admin:'Admin',h_hist:'Temple History',h_mantra:'Gayatri Mantras',h_gal:'Gallery & Mahadev Shringar',h_near:'Popular Places Nearby',h_map:'Map & Directions',h_live:'Live Darshan / Aarti',h_info:'Official Notices & Verified Info',h_fest:'Festivals',h_comm:'Devotee Community · Har Har Mahadev',h_ask:'Temple Assistant',h_team:'Contributors',h_dev:'Developer',b_shr:'See Mahadev Shringar',ann_tag:'Notice',cat_all:'All',cat_mandir:'Temple',cat_aarti:'Aarti',cat_shringar:'Shringar',cat_mela:'Fair',cat_paris:'Premises',up_h:'Send Mahadev Shringar / Fair photos'};
+const EN={n_hist:'History',n_mantra:'Mantras',n_gal:'Gallery',n_sang:'Bhakti Music',n_near:'Nearby',n_map:'Map',n_live:'Live',n_info:'Notices',n_comm:'Community',n_team:'Team',n_admin:'Admin',h_hist:'Temple History',h_mantra:'Gayatri Mantras',h_gal:'Gallery & Mahadev Shringar',h_sang:'Bhakti Music & Mantra Chants',h_yt:'Popular Shiva Bhajans on YouTube',h_near:'Popular Places Nearby',h_map:'Map & Directions',h_live:'Live Darshan / Aarti',h_info:'Official Notices & Verified Info',h_fest:'Festivals',h_comm:'Devotee Community · Har Har Mahadev',h_ask:'Temple Assistant',h_team:'Contributors',h_dev:'Developer',b_shr:'See Mahadev Shringar',ann_tag:'Notice',cat_all:'All',cat_mandir:'Temple',cat_aarti:'Aarti',cat_shringar:'Shringar',cat_mela:'Fair',cat_paris:'Premises',cat_kshetra:'Region',up_h:'Send Mahadev Shringar / Fair photos'};
 let en=false;document.querySelectorAll('[data-t]').forEach(e=>e.dataset.hi=e.textContent);
 $('lg').onclick=()=>{en=!en;root.lang=en?'en':'hi';$('lg').textContent=en?'हि':'EN';document.querySelectorAll('[data-t]').forEach(e=>e.textContent=en?EN[e.dataset.t]:e.dataset.hi);$('q').placeholder=en?'Search':'खोजें'};
 
@@ -395,19 +483,43 @@ let PHOTOS=[],FILTER='all';
 async function loadGallery(){
   if(DEMO){
     PHOTOS=[
-      {src:'assets/temple-festival.jpg',caption:'शिवधाम प्रवेशद्वार',alt:'बाबा भदेश्वर नाथ मंदिर का प्रवेशद्वार',category:'mandir'},
-      {src:'assets/temple-aarti.jpg',caption:'पर्व की सजावट',alt:'पर्व पर सजा हुआ मंदिर',category:'aarti'},
-      {src:'assets/temple-official.jpg',caption:'अधिकृत फोटो: जनपद बस्ती',alt:'जनपद बस्ती सरकारी पोर्टल की अधिकृत मंदिर फोटो',category:'mandir'},
-      {src:'assets/google-maps-1.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 1',category:'mandir'},
-      {src:'assets/google-maps-2.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 2',category:'mandir'},
-      {src:'assets/google-maps-3.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 3',category:'mandir'},
-      {src:'assets/google-maps-4.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 4',category:'mandir'},
-      {src:'assets/temple-myadhyatm-1.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
-      {src:'assets/temple-myadhyatm-2.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
-      {src:'assets/temple-myadhyatm-3.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
-      {src:'assets/temple-myadhyatm-4.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
-      {src:'assets/temple-myadhyatm-5.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
-      {src:'assets/temple-myadhyatm-6.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'}
+      {src:'assets/temple-festival.jpg',caption:'शिवधाम प्रवेशद्वार',alt:'बाबा भदेश्वर नाथ मंदिर का प्रवेशद्वार',category:'mandir',src_name:'जनपद बस्ती पोर्टल'},
+      {src:'assets/temple-aarti.jpg',caption:'पर्व की सजावट',alt:'पर्व पर सजा हुआ मंदिर',category:'aarti',src_name:'जनपद बस्ती पोर्टल'},
+      {src:'assets/temple-official.jpg',caption:'अधिकृत फोटो: जनपद बस्ती',alt:'जनपद बस्ती सरकारी पोर्टल की अधिकृत मंदिर फोटो',category:'mandir',src_name:'basti.nic.in'},
+      {src:'assets/google-maps-1.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 1',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-2.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 2',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-3.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 3',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-4.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 4',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-5.jpg',caption:'मंदिर परिसर का दृश्य',alt:'Google Maps उपयोगकर्ता फोटो — मंदिर परिसर 5',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-6.jpg',caption:'मंदिर परिसर का दृश्य',alt:'Google Maps उपयोगकर्ता फोटो — मंदिर परिसर 6',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-7.jpg',caption:'मंदिर परिसर का दृश्य',alt:'Google Maps उपयोगकर्ता फोटो — मंदिर परिसर 7',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-8.jpg',caption:'मंदिर परिसर का दृश्य',alt:'Google Maps उपयोगकर्ता फोटो — मंदिर परिसर 8',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-9.jpg',caption:'मंदिर परिसर का दृश्य',alt:'Google Maps उपयोगकर्ता फोटो — मंदिर परिसर 9',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-10.jpg',caption:'मंदिर परिसर का दृश्य',alt:'Google Maps उपयोगकर्ता फोटो — मंदिर परिसर 10',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-11.jpg',caption:'मंदिर परिसर का दृश्य',alt:'Google Maps उपयोगकर्ता फोटो — मंदिर परिसर 11',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/google-maps-12.jpg',caption:'मंदिर परिसर का दृश्य',alt:'Google Maps उपयोगकर्ता फोटो — मंदिर परिसर 12',category:'mandir',src_name:'Google Maps'},
+      {src:'assets/temple-myadhyatm-1.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'shringar',src_name:'MyAdhyatm'},
+      {src:'assets/temple-myadhyatm-2.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'shringar',src_name:'MyAdhyatm'},
+      {src:'assets/temple-myadhyatm-3.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'shringar',src_name:'MyAdhyatm'},
+      {src:'assets/temple-myadhyatm-4.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'shringar',src_name:'MyAdhyatm'},
+      {src:'assets/temple-myadhyatm-5.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'shringar',src_name:'MyAdhyatm'},
+      {src:'assets/temple-myadhyatm-6.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'shringar',src_name:'MyAdhyatm'},
+      {src:'assets/temple-myadhyatm-7.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'shringar',src_name:'MyAdhyatm'},
+      {src:'assets/temple-myadhyatm-8.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'shringar',src_name:'MyAdhyatm'},
+      {src:'assets/temple-amarujala-1.jpg',caption:'बाबा भदेश्वर नाथ मंदिर',alt:'अमर उजाला फोटो — बाबा भदेश्वर नाथ मंदिर (2018)',category:'mandir',src_name:'अमर उजाला'},
+      {src:'assets/temple-amarujala-2.jpg',caption:'बाबा भदेश्वर नाथ मंदिर',alt:'अमर उजाला फोटो — बाबा भदेश्वर नाथ मंदिर (2018)',category:'mandir',src_name:'अमर उजाला'},
+      {src:'assets/temple-amarujala-3.jpg',caption:'बाबा भदेश्वर नाथ',alt:'अमर उजाला फोटो — बाबा भदेश्वर नाथ (2021)',category:'shringar',src_name:'अमर उजाला'},
+      {src:'assets/temple-amarujala-4.jpg',caption:'बाबा भदेश्वर नाथ',alt:'अमर उजाला फोटो — बाबा भदेश्वर नाथ (2021)',category:'shringar',src_name:'अमर उजाला'},
+      {src:'assets/temple-amarujala-5.jpg',caption:'बाबा भदेश्वर नाथ मंदिर',alt:'अमर उजाला फोटो — बाबा भदेश्वर नाथ मंदिर (2021)',category:'mela',src_name:'अमर उजाला'},
+      {src:'assets/region-basti-board.jpg',caption:'बस्ती जिला — अब्दुल्ला बोर्ड',alt:'Wikimedia Commons CC फोटो — बस्ती जिला सड़क चिह्न',category:'kshetra',src_name:'Wikimedia Commons · CC BY-SA 4.0'},
+      {src:'assets/region-basti-railway.jpg',caption:'बस्ती रेलवे स्टेशन',alt:'Wikimedia Commons CC0 फोटो — बस्ती रेलवे स्टेशन',category:'kshetra',src_name:'Wikimedia Commons · CC0'},
+      {src:'assets/region-basti-platform.jpg',caption:'बस्ती रेलवे स्टेशन प्लेटफ़ॉर्म',alt:'Wikimedia Commons फोटो — बस्ती रेलवे स्टेशन प्लेटफ़ॉर्म',category:'kshetra',src_name:'Wikimedia Commons · CC BY-SA 4.0'},
+      {src:'assets/region-basti-1930s.jpg',caption:'1930 का दशक — बस्ती का ऐतिहासिक दृश्य',alt:'Wikimedia Commons Public Domain ऐतिहासिक फोटो — 1930 का दशक, बस्ती',category:'kshetra',src_name:'Wikimedia Commons · Public Domain'},
+      {src:'assets/region-nh28-basti.jpg',caption:'राष्ट्रीय राजमार्ग NH-28, बस्ती के पास',alt:'Wikimedia Commons फोटो — NH-28 बस्ती के पास',category:'kshetra',src_name:'Wikimedia Commons · CC BY-SA 3.0'},
+      {src:'assets/region-amorha-chaturbhuji.jpg',caption:'चतुर्भुजी मंदिर, अमोरहा (बस्ती)',alt:'Wikimedia Commons फोटो — चतुर्भुजी मंदिर, अमोरहा, बस्ती',category:'kshetra',src_name:'Wikimedia Commons · CC BY-SA 4.0'},
+      {src:'assets/region-amorha-kotahi.jpg',caption:'कोटाही मंदिर, अमोरहा (बस्ती)',alt:'Wikimedia Commons फोटो — कोटाही मंदिर, अमोरहा, बस्ती',category:'kshetra',src_name:'Wikimedia Commons · CC BY-SA 4.0'},
+      {src:'assets/region-amorha-ramrekha.jpg',caption:'रामरेखा मंदिर, अमोरहा (बस्ती)',alt:'Wikimedia Commons फोटो — रामरेखा मंदिर, अमोरहा, बस्ती',category:'kshetra',src_name:'Wikimedia Commons · CC BY-SA 4.0'},
+      {src:'assets/region-amorha-raja-jhala.jpg',caption:'राजा ज्हाला सिंह स्मारक, अमोरहा (बस्ती)',alt:'Wikimedia Commons फोटो — राजा ज्हाला सिंह, अमोरहा, बस्ती',category:'kshetra',src_name:'Wikimedia Commons · CC BY-SA 4.0'}
     ].concat(L('bhadeshwar_shringar').map(x=>({src:x.src,caption:'महादेव श्रृंगार'+(x.by?' · '+x.by:''),alt:'भक्त द्वारा भेंट किया महादेव श्रृंगार',category:'shringar',local:true})));
   }else{
     const {data,error}=await SB.from('photos').select('*').eq('status','approved').order('created_at',{ascending:false});
@@ -421,8 +533,10 @@ function drawGallery(){
   const list=PHOTOS.filter(p=>FILTER==='all'||p.category===FILTER);
   list.forEach(p=>{
     const f=document.createElement('figure');
+    f.className='reveal in';
     const im=document.createElement('img');im.src=p.src;im.alt=p.alt;im.loading='lazy';
-    const cap=document.createElement('figcaption');cap.textContent=(CATS[p.category]||'')+' · '+p.caption;
+    const cap=document.createElement('figcaption');
+    cap.textContent=(CATS[p.category]||'')+' · '+p.caption+(p.src_name?' · स्रोत: '+p.src_name:'');
     f.append(im,cap);
     if(p.local){const d=document.createElement('button');d.className='del';d.textContent='×';d.setAttribute('aria-label','हटाएँ');
       d.onclick=()=>{const a=L('bhadeshwar_shringar');const i=a.findIndex(x=>x.src===p.src);if(i>-1){a.splice(i,1);W('bhadeshwar_shringar',a);loadGallery();}};
@@ -618,6 +732,57 @@ const QA=[[/इतिहास|history|रावण|पांडव|pandav|झ�
 [/लाइव|live|दर्शन.*लाइक|stream/i,'आधिकारिक लाइव लिंक अभी सक्रिय नहीं है। मंदिर समिति जोड़ने पर "लाइव" सेक्शन में दिखेगा।','No official live stream is active yet. It will appear in the Live section once the committee adds it.']];
 const ask=()=>{const q=$('aq').value;const r=QA.find(x=>x[0].test(q));$('ar').textContent=r?(en?r[2]:r[1]):(en?'I do not have verified information on that.':'इस बारे में मेरे पास सत्यापित जानकारी नहीं है।')};$('ab').onclick=ask;$('aq').onkeydown=e=>{if(e.key==='Enter')ask()};
 $('mic').onclick=()=>{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){$('ar').textContent='इस ब्राउज़र में आवाज़ से पूछना उपलब्ध नहीं।';return}const r=new R();r.lang=en?'en-IN':'hi-IN';r.onresult=e=>{$('aq').value=e.results[0][0].transcript;ask()};r.start()};
+
+// ================= BHakti PLAYER =================
+const TRACKS=[
+ {t:'शिव नाम है जीवन हमारा (1)',a:'महंत राजेश कुमार तिवारी · Public Domain Mark 1.0',src:'assets/audio/bhajan-shivnam-1.mp3'},
+ {t:'शिव नाम है जीवन हमारा (2)',a:'महंत राजेश कुमार तिवारी · Public Domain Mark 1.0',src:'assets/audio/bhajan-shivnam-2.mp3'},
+ {t:'शिव नाम है जीवन हमारा (3)',a:'महंत राजेश कुमार तिवारी · Public Domain Mark 1.0',src:'assets/audio/bhajan-shivnam-3.mp3'},
+ {t:'शिव नाम है जीवन हमारा (4)',a:'महंत राजेश कुमार तिवारी · Public Domain Mark 1.0',src:'assets/audio/bhajan-shivnam-4.mp3'},
+ {t:'शिव नाम है जीवन हमारा (5)',a:'महंत राजेश कुमार तिवारी · Public Domain Mark 1.0',src:'assets/audio/bhajan-shivnam-5.mp3'},
+ {t:'शिव नाम है जीवन हमारा (6)',a:'महंत राजेश कुमार तिवारी · Public Domain Mark 1.0',src:'assets/audio/bhajan-shivnam-6.mp3'},
+ {t:'शिव आरती',a:'Internet Archive · CC BY-NC 4.0',src:'assets/audio/bhajan-shiv-aarti.mp3'}
+];
+const au=$('pAudio');let cur=0;
+const fmtT=s=>{s=Math.floor(s||0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+function drawPlist(){const l=$('pList');l.innerHTML='';TRACKS.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pitem'+(i===cur?' on':'');b.setAttribute('role','listitem');const s1=document.createElement('span');s1.textContent=x.t;const s2=document.createElement('small');s2.textContent=x.a;b.append(s1,s2);b.onclick=()=>{cur=i;loadTrack();playTrack()};l.append(b)})}
+function loadTrack(){const x=TRACKS[cur];au.src=x.src;$('pTitle').textContent=x.t;$('pArtist').textContent=x.a;drawPlist()}
+function playTrack(){au.play().then(()=>{$('pPlay').textContent='⏸ रोकें';$('pEq').classList.remove('paused')}).catch(()=>{$('pPlay').textContent='▶ बजाएँ';$('pEq').classList.add('paused')})}
+$('pPlay').onclick=()=>{if(au.paused){playTrack()}else{au.pause();$('pPlay').textContent='▶ बजाएँ';$('pEq').classList.add('paused')}};
+$('pNext').onclick=()=>{cur=(cur+1)%TRACKS.length;loadTrack();if(!au.paused)playTrack()};
+$('pPrev').onclick=()=>{cur=(cur-1+TRACKS.length)%TRACKS.length;loadTrack();if(!au.paused)playTrack()};
+au.addEventListener('timeupdate',()=>{$('pTime').textContent=fmtT(au.currentTime)+' / '+fmtT(au.duration)});
+au.addEventListener('ended',()=>{cur=(cur+1)%TRACKS.length;loadTrack();if(!au.paused)playTrack()});
+au.addEventListener('pause',()=>{$('pPlay').textContent='▶ बजाएँ';$('pEq').classList.add('paused')});
+loadTrack();
+
+// ================= MANTRA SPEECH (browser TTS, no API key) =================
+document.querySelectorAll('.listen').forEach(b=>{
+  b.onclick=()=>{
+    if(!('speechSynthesis' in window)){b.textContent='इस ब्राउज़र में नहीं';return}
+    speechSynthesis.cancel();
+    const p=b.closest('div').querySelector('[data-spk]');if(!p)return;
+    const u=new SpeechSynthesisUtterance(p.dataset.spk.replace(/॥/g,'।'));
+    u.lang='hi-IN';u.rate=.85;
+    speechSynthesis.speak(u);
+    b.textContent='…सुनें जा रहा है';setTimeout(()=>b.textContent='▶ सुनें',4000);
+  };
+});
+
+// ================= SCROLL ANIMATIONS =================
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// stats counter
+const so=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;so.unobserve(e.target);const el=e.target;const target=+el.dataset.count;const t0=performance.now();const dur=1400;const step=t=>{const p=Math.min(1,(t-t0)/dur);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}),{threshold:.4});
+document.querySelectorAll('[data-count]').forEach(el=>so.observe(el));
+// hero parallax + nav shrink + back-to-top
+const heroImg=document.querySelector('.hero>img'),navEl=document.querySelector('nav'),topBtn=$('topBtn');
+let ticking=false;
+window.addEventListener('scroll',()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{const y=window.scrollY;if(heroImg&&y<window.innerHeight)heroImg.style.transform='translateY('+(y*.25)+'px) scale(1.12)';navEl.classList.toggle('shrunk',y>40);topBtn.classList.toggle('show',y>600);ticking=false})},{passive:true});
+topBtn.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+
+// ================= JAAP POP =================
+$('jp').onclick=()=>{c++;cn.textContent=c;cn.classList.remove('pop');void cn.offsetWidth;cn.classList.add('pop');try{localStorage.setItem('jaap',c)}catch(e){}};
 
 // ---------- boot ----------
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});

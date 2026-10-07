@@ -1,7 +1,7 @@
-// config.js — LOCAL ONLY, gitignored. Fill from config.example.js, then deploy:
-//   git add -f config.js && git commit -m "configure supabase" && git push
-// (anon key is safe to ship: RLS policies in supabase/schema.sql protect all data)
+// config.js — deployed config (PUBLIC-SAFE: only URL + publishable/anon key).
+// NEVER put SUPABASE_SECRET_KEY or AI keys here — it is public on GitHub Pages.
+// Secrets live in .env (gitignored) for local scripts only.
 window.__CFG = window.__CFG || {};
-window.__CFG.supabaseUrl = "";
-window.__CFG.supabaseAnonKey = "";
+window.__CFG.supabaseUrl = "https://bsxljzchkrrlwqphpkfu.supabase.co";
+window.__CFG.supabaseAnonKey = "sb_publishable_aiv3ydeErCe-HlHDP4Kgrw_zd-40OPu";
 window.__CFG.siteUrl = "https://mr0utkarsh.github.io/bhadeshwar-nath-mandir/";
