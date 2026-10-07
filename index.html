@@ -171,8 +171,10 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 <li><b>रावण से जुड़ी मान्यता</b>जिला पर्यटन पृष्ठ के अनुसार लोकमान्यता है कि मंदिर की स्थापना रावण ने की थी।</li>
 <li><b>पांडवों की स्मृति</b>कुछ स्थानीय कथाएँ इस स्थल को पांडवों के अज्ञातवास और युधिष्ठिर की शिव-पूजा से जोड़ती हैं।</li>
 <li><b>महाशिवरात्रि का मेला</b>हर साल शिवरात्रि पर यहाँ मेला लगता है; सावन और सोमवार को भी भक्त बड़ी संख्या में आते हैं।</li>
+<li><b>झारकेश्वर बाबा की मान्यता</b>लोकमान्यता: शिवलिंग को 'झारकेश्वर बाबा' भी कहा जाता है और कथा है कि शिवलिंग का आकार आज भी बढ़ता है (स्रोत: MyAdhyatm)।</li>
+<li><b>1728 की मान्यता</b>कथा के अनुसार 1728 में बस्ती के राजा ने पूर्वजों को प्रसादपुर से भदेश्वरनाथ लाकर यहाँ पूजा करने की शुरुआत की (स्रोत: MyAdhyatm)।</li>
 </ul>
-<p class="note">ये कथाएँ लोकमान्यता और जनश्रुति हैं, प्रमाणित ऐतिहासिक तथ्य नहीं। स्रोत: <a href="https://basti.nic.in/tourist-place/bhadeshwer-nath/" target="_blank" rel="noopener">basti.nic.in</a>। दर्शन का समय स्थानीय रूप से पूछ लें।</p>
+<p class="note">ये कथाएँ लोकमान्यता और जनश्रुति हैं, प्रमाणित ऐतिहासिक तथ्य नहीं। स्रोत: <a href="https://basti.nic.in/tourist-place/bhadeshwer-nath/" target="_blank" rel="noopener">basti.nic.in</a> (जिला प्रशासन) · <a href="https://myadhyatm.com/bhadeshwar-nath-mandir-kakraeebasti/" target="_blank" rel="noopener">MyAdhyatm</a> · <a href="https://inmap24.com/hindu-temple/uttar-pradesh/441973" target="_blank" rel="noopener">inmap24 / Google Maps</a>। दर्शन का समय स्थानीय रूप से पूछ लें।</p>
 </div>
 <figure style="margin:0"><img src="assets/temple-aarti.jpg" alt="पर्व पर सजा हुआ बाबा भदेश्वर नाथ मंदिर, शाम के समय" loading="lazy"><figcaption class="cap">पर्व पर सजा मंदिर (फोटो: जिला बस्ती पोर्टल)</figcaption></figure>
 </div></section>
@@ -204,7 +206,7 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 
 <section id="gallery" class="band"><div class="wrap">
 <h2 data-t="h_gal">चित्र दीर्घा और महादेव श्रृंगार</h2>
-<p class="lead">मंदिर, आरती, श्रृंगार, मेला और परिसर की फोटो। सबको दिखाने के लिए फोटो Supabase Storage से आती हैं — नई फोटो समिति की स्वीकृति के बाद प्रकाशित होती है।</p>
+<p class="lead">मंदिर, शिवलिंग, आरती, श्रृंगार, मेला और परिसर की फोटो — असली सोर्स (जनपद बस्ती पोर्टल, Google Maps, MyAdhyatm) से। कोई भी भक्त बिना लॉगिन के फोटो भेज सकता है, तुरंत सार्वजनिक दीर्घा में जुड़ जाती है।</p>
 <div class="chips" id="galChips" role="group" aria-label="श्रेणी फ़िल्टर">
 <button data-cat="all" class="on" data-t="cat_all">सभी</button>
 <button data-cat="mandir" data-t="cat_mandir">मंदिर</button>
@@ -220,9 +222,10 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 <input type="text" id="n" maxlength="40" placeholder="आपका नाम (वैकल्पिक)">
 <input type="text" id="fc" maxlength="60" placeholder="फोटो का शीर्षक (वैकल्पिक)">
 <select id="fcat" aria-label="श्रेणी"><option value="shringar">महादेव श्रृंगार</option><option value="mela">मेला / पर्व</option><option value="mandir">मंदिर</option><option value="aarti">आरती</option><option value="paris">परिसर</option></select>
-<button class="btn p" id="go" type="button">फोटो भेजें</button>
+<label>सत्यापन: <span id="fcq"></span> = <input id="fca" style="width:80px;display:inline-block" inputmode="numeric"></label>
+<button class="btn p" id="go" type="button">फोटो भेजें (कोई लॉगिन नहीं चाहिए)</button>
 <div id="msg" role="status"></div>
-<small class="cap">फोटो पहले Supabase Storage में जाती है और मंदिर समिति की स्वीकृति के बाद ही सार्वजनिक दीर्घा में दिखती है। कृपया केवल अपनी या अनुमति-प्राप्त फोटो भेजें।</small>
+<small class="cap">फोटो अपलोड होते ही सार्वजनिक दीर्घा में जुड़ जाती है — कोई लॉगिन या स्वीकृति नहीं चाहिए। कृपया केवल अपनी या अनुमति-प्राप्त फोटो भेजें; अनुचित फोटो मंदिर समिति हटा सकती है।</small>
 </div></div></section>
 
 <section id="aaspas" class="band"><div class="wrap">
@@ -240,8 +243,8 @@ dialog button{position:absolute;top:8px;right:8px;z-index:2}
 <div class="row"><b>पता</b><span>Kakraee (काकरी), वाल्टरगंज के पास, Basti, Uttar Pradesh — Plus Code: <b>QP4R+JG9</b></span></div>
 <div class="row"><b>स्थिति</b><span>बस्ती जिला मुख्यालय से लगभग 6 किमी, कुवानो नदी के तट पर</span></div>
 <div class="row"><b>रेलवे</b><span>बस्ती रेलवे स्टेशन ≈ 8 किमी (लखनऊ–गोरखपुर मुख्य लाइन; वैशाली एक्सप्रेस, गोरखधाम एक्सप्रेस आदि)</span></div>
-<div class="row"><b>हवाई अड्डा</b><span>गोरखपुर ≈ 76 किमी · अयोध्या ≈ 140 किमी</span></div>
-<div class="row"><b>सड़क</b><span>बस्ती बस स्टैंड से टैक्सी/ऑटो; काकरी–वाल्टरगंज मार्ग पर मंदिर सेन्यापन</span></div>
+<div class="row"><b>हवाई अड्डा</b><span>गोरखपुर ≈ 80 किमी · अयोध्या ≈ 140 किमी</span></div>
+<div class="row"><b>सड़क</b><span>राष्ट्रीय राजमार्ग NH-28 से जुड़ा; बस्ती बस स्टैंड से टैक्सी/ऑटो; काकरी–वाल्टरगंज मार्ग पर मंदिर सेन्यापन</span></div>
 <div class="btns" style="margin-top:6px">
 <a class="btn p" href="https://www.google.com/maps/dir/?api=1&destination=Baba+Bhadeshwar+Nath+Mandir,+Kakraee,+Basti,+Uttar+Pradesh" target="_blank" rel="noopener">Google Maps पर मार्ग</a>
 <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Baba+Bhadeshwar+Nath+Mandir+Basti" target="_blank" rel="noopener">Google Maps में खोलें</a>
@@ -392,8 +395,19 @@ let PHOTOS=[],FILTER='all';
 async function loadGallery(){
   if(DEMO){
     PHOTOS=[
-      {src:'assets/temple-festival.jpg',caption:'शिवधाम प्रवेशद्वार',alt:'मंदिर का प्रवेशद्वार',category:'mandir'},
-      {src:'assets/temple-aarti.jpg',caption:'पर्व की सजावट',alt:'पर्व पर सजा मंदिर',category:'aarti'}
+      {src:'assets/temple-festival.jpg',caption:'शिवधाम प्रवेशद्वार',alt:'बाबा भदेश्वर नाथ मंदिर का प्रवेशद्वार',category:'mandir'},
+      {src:'assets/temple-aarti.jpg',caption:'पर्व की सजावट',alt:'पर्व पर सजा हुआ मंदिर',category:'aarti'},
+      {src:'assets/temple-official.jpg',caption:'अधिकृत फोटो: जनपद बस्ती',alt:'जनपद बस्ती सरकारी पोर्टल की अधिकृत मंदिर फोटो',category:'mandir'},
+      {src:'assets/google-maps-1.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 1',category:'mandir'},
+      {src:'assets/google-maps-2.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 2',category:'mandir'},
+      {src:'assets/google-maps-3.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 3',category:'mandir'},
+      {src:'assets/google-maps-4.jpg',caption:'Google Maps उपयोगकर्ता फोटो',alt:'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 4',category:'mandir'},
+      {src:'assets/temple-myadhyatm-1.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
+      {src:'assets/temple-myadhyatm-2.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
+      {src:'assets/temple-myadhyatm-3.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
+      {src:'assets/temple-myadhyatm-4.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
+      {src:'assets/temple-myadhyatm-5.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'},
+      {src:'assets/temple-myadhyatm-6.jpg',caption:'मंदिर एवं शिवलिंग का दृश्य',alt:'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',category:'mandir'}
     ].concat(L('bhadeshwar_shringar').map(x=>({src:x.src,caption:'महादेव श्रृंगार'+(x.by?' · '+x.by:''),alt:'भक्त द्वारा भेंट किया महादेव श्रृंगार',category:'shringar',local:true})));
   }else{
     const {data,error}=await SB.from('photos').select('*').eq('status','approved').order('created_at',{ascending:false});
@@ -419,17 +433,24 @@ function drawGallery(){
 }
 $('galChips').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;FILTER=b.dataset.cat;[...$('galChips').children].forEach(x=>x.classList.toggle('on',x===b));drawGallery();});
 
-// photo submission (moderated)
+// photo submission (no login, auto-published)
+let FC_A=0,FC_B=0,LAST_PHOTO=0;
+function nfq(){FC_A=2+Math.floor(Math.random()*8);FC_B=2+Math.floor(Math.random()*8);$('fcq').textContent=FC_A+' + '+FC_B;$('fca').value=''}
+nfq();
 $('go').onclick=async()=>{
   const m=$('msg'),files=[...$('f').files];
   if(!files.length){m.textContent='पहले फोटो चुनें।';return}
   if(files.some(f=>!validImage(f))){m.textContent='केवल 8 MB तक की image file जोड़ें।';return}
+  if(+$('fca').value!==FC_A+FC_B){m.textContent='सत्यापन उत्तर गलत है।';nfq();return}
+  if(Date.now()-LAST_PHOTO<30000){m.textContent='कृपया 30 सेकंड बाद दोबारा भेजें।';return}
   const by=$('n').value.trim(),cap=$('fc').value.trim(),cat=$('fcat').value;
   if(DEMO){
     const a=L('bhadeshwar_shringar');
     try{for(const f of files){const blob=await resizeFile(f,900,.72);a.push({src:await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(blob)}),by});}}catch(e){m.textContent='फोटो पढ़ नहीं सकी। कोई दूसरी फोटो चुनें।';return}
     if(!W('bhadeshwar_shringar',a)){m.textContent='जगह भर गई है। कुछ पुरानी फोटो हटाएँ।';return}
-    $('f').value='';m.textContent='फोटो जुड़ गई (डेमो मोड — सिर्फ इस ब्राउज़र में)। हर हर महादेव!';loadGallery();return;
+    $('f').value='';$('n').value='';$('fc').value='';
+    LAST_PHOTO=Date.now();nfq();
+    m.textContent='फोटो दीर्घा में जुड़ गई (डेमो मोड — सिर्फ इस ब्राउज़र में)। हर हर महादेव!';loadGallery();return;
   }
   m.textContent='अपलोड हो रही है…';
   try{
@@ -439,11 +460,12 @@ $('go').onclick=async()=>{
       const blob=await resizeFile(f,1600,.82);
       const {error:ue}=await SB.storage.from('temple-photos').upload(path,blob,{contentType:'image/jpeg',cacheControl:'3600'});
       if(ue)throw ue;
-      const {error:ie}=await SB.from('photos').insert({storage_path:path,caption_hi:cap||'महादेव श्रृंगार',caption_en:'',alt_text:'भक्त द्वारा भेंट किया गया महादेव श्रृंगार फोटो',category:cat,status:'pending',uploaded_by:null});
+      const {error:ie}=await SB.from('photos').insert({storage_path:path,caption_hi:cap||'महादेव श्रृंगार',caption_en:'',alt_text:'भक्त द्वारा भेंट किया गया महादेव श्रृंगार फोटो',category:cat,status:'approved',uploaded_by:null});
       if(ie)throw ie;
     }
     $('f').value='';$('n').value='';$('fc').value='';
-    m.textContent='फोटो समिति की स्वीकृति के लिए भेजी गई है। स्वीकृति के बाद सबको दिखेगी। हर हर महादेव!';
+    LAST_PHOTO=Date.now();nfq();
+    m.textContent='फोटो सार्वजनिक दीर्घा में जुड़ गई! हर हर महादेव!';loadGallery();
   }catch(e){console.error(e);m.textContent='फोटो भेज नहीं सके। कृपया दोबारा प्रयास करें।';}
 };
 
@@ -587,8 +609,8 @@ $('pp').onclick=async()=>{
 };
 
 // ================= ASSISTANT =================
-const QA=[[/इतिहास|history|रावण|पांडव|pandav/i,'लोकमान्यता है कि मंदिर की स्थापना रावण ने की; कुछ कथाएँ पांडवों से भी जोड़ती हैं। जिला पोर्टल के अनुसार शिवलिंग और भदेश्वर नाथ का नाम शिव महापुराण में उल्लिखित है। ये प्रमाणित इतिहास नहीं, जनश्रुति हैं।','Folk belief links the temple to Ravana and some tales to the Pandavas. The district portal notes the Shiva Mahapurana reference. These are traditions, not verified history.'],
-[/पहुँच|पहुंच|reach|route|कैसे|how|station|स्टेशन|airport|काकरी|kakraee/i,'मंदिर काकरी (Kakraee) में, बस्ती जिला मुख्यालय से लगभग 6 किमी, कुवानो नदी के तट पर है (Plus Code QP4R+JG9)। बस्ती रेलवे स्टेशन ≈ 8 किमी; गोरखपुर हवाई अड्डा ≈ 76 किमी।','The temple is at Kakraee, ~6 km from Basti HQ on the Kuwano river (Plus Code QP4R+JG9). Basti railway station ~8 km; Gorakhpur airport ~76 km.'],
+const QA=[[/इतिहास|history|रावण|पांडव|pandav|झारकेश्वर|jhar|shivling|शिवलिंग/i,'लोकमान्यता है कि मंदिर की स्थापना रावण ने की; कुछ कथाएँ पांडवों से भी जोड़ती हैं। शिवलिंग को झारकेश्वर बाबा भी कहा जाता है और कथा है कि शिवलिंग का आकार आज भी बढ़ता है; 1728 में बस्ती राजा के पूर्वज यहाँ आए। जिला पोर्टल के अनुसार शिवलिंग और भदेश्वर नाथ का नाम शिव महापुराण में उल्लिखित है। ये प्रमाणित इतिहास नहीं, जनश्रुति हैं।','Folk belief links the temple to Ravana and some tales to the Pandavas. The Shivalinga is also called Jharkeshwar Baba and is believed to be growing; in 1728 the Basti Raja\'s ancestors came here. The district portal notes the Shiva Mahapurana reference. These are traditions, not verified history.'],
+[/पहुँच|पहुंच|reach|route|कैसे|how|station|स्टेशन|airport|काकरी|kakraee/i,'मंदिर काकरी (Kakraee) में, बस्ती जिला मुख्यालय से लगभग 6 किमी, कुवानो नदी के तट पर है (Plus Code QP4R+JG9), NH-28 से जुड़ा। बस्ती रेलवे स्टेशन ≈ 8 किमी; गोरखपुर हवाई अड्डा ≈ 80 किमी।','The temple is at Kakraee, ~6 km from Basti HQ on the Kuwano river (Plus Code QP4R+JG9), connected via NH-28. Basti railway station ~8 km; Gorakhpur airport ~80 km.'],
 [/शिवरात्रि|shivratri|मेला|mela|festival|पर्व|sawan|सावन|कांवड़|kanwar/i,'महाशिवरात्रि पर मेला लगता है और सावन व सोमवार को भीड़ रहती है; कांवड़ियों की श्रद्धा। तारीख पंचांग में देखें।','A fair is held on Maha Shivaratri; Sawan and Mondays are busy with Kanwar yatris. Check the panchang for dates.'],
 [/समय|timing|aarti|आरती|darshan|दर्शन|open|खुल/i,'दर्शन-आरती का सत्यापित समय उपलब्ध नहीं। स्थानीय रूप से या मंदिर समिति से पूछ लें।','Verified darshan/aarti timings are not available. Please check locally or with the temple committee.'],
 [/नियम|dress|कपड़े|rule|जूते|footwear/i,'सादे वस्त्र पहनें और परिसर में जूते-चप्पल बाहर उतारें।','Dress modestly and remove footwear inside the premises.'],

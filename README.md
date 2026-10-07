@@ -8,7 +8,7 @@
 ## फ़ीचर्स / Features
 
 - मंदिर इतिहास (लोकमान्यता स्पष्ट रूप से चिह्नित), गायत्री मंत्र (9+महामृत्युंजय), संस्कृत श्लोक
-- Supabase-चालित **चित्र दीर्घा** (मंदिर / आरती / महादेव श्रृंगार / मेला / परिसर फ़िल्टर) — मॉडरेशन के बाद ही सार्वजनिक
+- **चित्र दीर्घा**: 13 असली मंदिर/शिवलिंग फोटो (जनपद बस्ती सरकारी पोर्टल, Google Maps उपयोगकर्ता फोटो, MyAdhyatm) + श्रेणी फ़िल्टर (मंदिर/आरती/श्रृंगार/मेला/परिसर); **कोई भी बिना लॉगिन फोटो भेज सकता है — तुरंत सार्वजनिक** (captcha + 30s rate limit; मंदिर समिति हटा सकती है)
 - **Google Maps** embed + "Google Maps पर मार्ग" + Plus Code (QP4R+JG9) + यात्रा जानकारी
 - **लाइव दर्शन/आरती** लिंक (समिति द्वारा प्रबंधित), **आधिकारिक घोषणाएँ**
 - भक्त मंच: पोस्ट, फोटो सबमिशन, टिप्पणी, 🙏 लाइक, डिजिटल संकल्प — सब moderated
@@ -51,26 +51,36 @@ npx serve .                       # या कोई भी static server
    git add -f config.js && git commit -m "connect supabase" && git push
    ```
 
-## फोटो सोर्सिंग (Google Photos / Drive / Dropbox)
+## फोटो सोर्सिंग (क्या कैसे लाया गया)
 
-Google Search पेज से फोटो सीधे डाउनलोड करना reliable नहीं है और कॉपीराइट का जोखिम है। सही तरीका:
+Google Images से सीधे auto-scraping ब्लॉक होता है (429) और Bing results में ज़्यादातर Himachal के **Chandra Taal** की unrelated फोटो आती हैं — गलत (unrelated) फोटो न लगाने के नियम के कारण उन्हें नहीं लिया गया। जो लगाया गया, सब **इसी मंदिर की verified फोटो** है:
 
-1. **असली शेयर लिंक** (Google Photos album / Drive / Dropbox folder) से फोटो डाउनलोड करके `photos/` फ़ोल्डर में रखें (फ़ोल्डर gitignored है)।
+| फोटो | सोर्स | रिज़ॉल्यूशन |
+|---|---|---|
+| `assets/temple-official.jpg` | जनपद बस्ती सरकारी पोर्टल (basti.nic.in) — अधिकृत | 480×359 |
+| `assets/google-maps-1..4.jpg` | Google Maps उपयोगकर्ता फोटो (इसी स्थान की, alt-verified) | high-res |
+| `assets/temple-myadhyatm-1..6.jpg` | MyAdhyatm — इसी मंदिर/शिवलिंग पर लिखे article की gallery | 250×250 (छोटी) |
+| `assets/temple-festival.jpg`, `temple-aarti.jpg` | पहले से मौजूद (Justdial / जिला पोर्टल) | 960×720 / 480×359 |
+
+**और फोटो कैसे जोड़ें (Google Photos / Drive / Dropbox से):**
+1. असली शेयर लिंक से फोटो डाउनलोड करके `photos/` फ़ोल्डर में रखें (gitignored)।
 2. Bulk अपलोड + auto-optimize (1600px, JPEG q0.82):
    ```bash
    cp .env.example .env          # SUPABASE_URL और SUPABASE_SERVICE_KEY भरें (server-side only!)
    node scripts/upload-photos.js ./photos --category=mela --caption="महाशिवरात्रि मेला"
    ```
-3. या सीधे **प्रशासन पैनल** (`admin.html`) से drag-drop अपलोड — वहीं कैटेगरी, शीर्षक और alt text दें।
+3. या सीधे साइट के "फोटो भेजें" फ़ॉर्म से (कोई लॉगिन नहीं) या admin.html से drag-drop।
 
 केवल अपनी या अनुमति-प्राप्त फोटो अपलोड करें। Duplicate / low-quality / unrelated फोटो न डालें।
+आस-पास की जगहों (चंदो ताल, वन चेतना केंद्र आदि) की फोटो Google पर easily verifiable नहीं मिलीं, इसलिए Nearby सेक्शन में Google फोटो links दिए गए हैं — असली फोटो मिलने पर ऊपर की तरह जोड़ें।
 
 ## Admin instructions (admin.html)
 
 - URL: `https://mr0utkarsh.github.io/bhadeshwar-nath-mandir/admin.html`
 - उसी ईमेल/पासवर्ड से लॉगिन जो `admins` तालिका में है।
 - **फोटो अपलोड**: सीधे स्वीकृत, सार्वजनिक दीर्घा में तुरंत दिखेगी।
-- **मॉडरेशन**: भक्तों की फोटो/पोस्ट/टिप्पणी/संकल्प "प्रतीक्षा में" आते हैं → स्वीकृत / अस्वीकार / हटाएँ।
+- **फोटो**: कोई भी बिना लॉगिन भेज सकता है, तुरंत सार्वजनिक होती है — अनुचित फोटो "स्वीकृत फोटो" सूची से हटाएँ (Storage + DB दोनों से)।
+- **मॉडरेशन**: भक्तों की पोस्ट/टिप्पणी/संकल्प "प्रतीक्षा में" आते हैं → स्वीकृत / अस्वीकार / हटाएँ।
 - **घोषणाएँ**: शीर्षक, विवरण, वैधता अवधि, प्राथमिकता। स्वीकृत घोषणा साइट के टॉप बार में दिखती है।
 - **लाइव लिंक**: YouTube/Facebook live URL + "सक्रिय" टॉगल — साइट के लाइव सेक्शन में दिखेगा।
 
@@ -116,8 +126,10 @@ gh api -X POST /repos/mr0utkarsh/bhadeshwar-nath-mandir/pages \
 
 ## Sources
 
-- District Basti portal: https://basti.nic.in/tourist-place/bhadeshwer-nath/ (हिंदी: /hi/tourist-place/भादेश्वर-नाथ/)
-- रावण/पांडव कथाएँ लोकमान्यता हैं, प्रमाणित इतिहास नहीं।
-- Bundled photos: `assets/temple-festival.jpg` (Justdial listing), `assets/temple-aarti.jpg` (District Basti gallery) — असली मंदिर फोटो; और फोटो admin panel / upload script से जोड़ें।
+- District Basti portal: https://basti.nic.in/tourist-place/bhadeshwer-nath/ (हिंदी: /hi/tourist-place/भादेश्वर-नाथ/) — अधिकृत फोटो + NH-28 + गोरखपुर 80 किमी
+- MyAdhyatm: https://myadhyatm.com/bhadeshwar-nath-mandir-kakraeebasti/ — मंदिर/शिवलिंग गैलरी (6 फोटो) + झारकेश्वर बाबा / 1728 की मान्यताएँ
+- inmap24: https://inmap24.com/hindu-temple/uttar-pradesh/441973 — Google Maps उपयोगकर्ता फोटो (4) + Plus Code QP4R+JG9
+- रावण/पांडव/झारकेश्वर/बढ़ता-शिवलिंग कथाएँ लोकमान्यता हैं, प्रमाणित इतिहास नहीं।
+- Bundled photos: `assets/temple-festival.jpg` (Justdial listing), `assets/temple-aarti.jpg` (District Basti gallery)
 
 **Developer:** [Utkarsh Giri](https://mr0utkarsh.github.io/portfolio-/) — [GitHub](https://github.com/mr0utkarsh)

@@ -114,10 +114,10 @@ create policy "public sees approved photos"
   to anon, authenticated
   using (status = 'approved');
 
-create policy "anyone may submit a photo for moderation"
+create policy "anyone may upload a photo (published immediately, no login)"
   on public.photos for insert
   to anon
-  with check (status = 'pending' and storage_path like 'submissions/%');
+  with check (status = 'approved' and storage_path like 'submissions/%');
 
 create policy "committee manages all photos"
   on public.photos for all
@@ -215,6 +215,8 @@ grant execute on function public.increment_like(uuid) to anon, authenticated;
 
 -- ---------------------------------------------------------------------------
 -- Seed data (bundled real photos already in the repo + first announcement)
+-- Sources: District Basti portal (basti.nic.in), Google Maps user photos,
+-- MyAdhyatm temple article. All photos are of THIS temple only.
 -- ---------------------------------------------------------------------------
 insert into public.photos (local_src, caption_hi, caption_en, alt_text, category, status)
 values
@@ -227,7 +229,62 @@ values
   'पर्व पर सजा हुआ मंदिर',
   'Temple decorated for the festival',
   'पर्व के समय सजा हुआ बाबा भदेश्वर नाथ मंदिर',
-  'aarti', 'approved')
+  'aarti', 'approved'),
+ ('assets/temple-official.jpg',
+  'अधिकृत फोटो: जनपद बस्ती सरकारी पोर्टल',
+  'Official photo: District Basti government portal',
+  'जनपद बस्ती सरकारी पोर्टल की बाबा भदेश्वर नाथ मंदिर की अधिकृत फोटो',
+  'mandir', 'approved'),
+ ('assets/google-maps-1.jpg',
+  'Google Maps उपयोगकर्ता फोटो',
+  'Google Maps user photo',
+  'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 1',
+  'mandir', 'approved'),
+ ('assets/google-maps-2.jpg',
+  'Google Maps उपयोगकर्ता फोटो',
+  'Google Maps user photo',
+  'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 2',
+  'mandir', 'approved'),
+ ('assets/google-maps-3.jpg',
+  'Google Maps उपयोगकर्ता फोटो',
+  'Google Maps user photo',
+  'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 3',
+  'mandir', 'approved'),
+ ('assets/google-maps-4.jpg',
+  'Google Maps उपयोगकर्ता फोटो',
+  'Google Maps user photo',
+  'Google Maps पर बाबा भदेश्वर नाथ मंदिर की फोटो 4',
+  'mandir', 'approved'),
+ ('assets/temple-myadhyatm-1.jpg',
+  'मंदिर एवं शिवलिंग का दृश्य',
+  'Temple and Shivalinga view (MyAdhyatm)',
+  'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',
+  'mandir', 'approved'),
+ ('assets/temple-myadhyatm-2.jpg',
+  'मंदिर एवं शिवलिंग का दृश्य',
+  'Temple and Shivalinga view (MyAdhyatm)',
+  'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',
+  'mandir', 'approved'),
+ ('assets/temple-myadhyatm-3.jpg',
+  'मंदिर एवं शिवलिंग का दृश्य',
+  'Temple and Shivalinga view (MyAdhyatm)',
+  'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',
+  'mandir', 'approved'),
+ ('assets/temple-myadhyatm-4.jpg',
+  'मंदिर एवं शिवलिंग का दृश्य',
+  'Temple and Shivalinga view (MyAdhyatm)',
+  'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',
+  'mandir', 'approved'),
+ ('assets/temple-myadhyatm-5.jpg',
+  'मंदिर एवं शिवलिंग का दृश्य',
+  'Temple and Shivalinga view (MyAdhyatm)',
+  'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',
+  'mandir', 'approved'),
+ ('assets/temple-myadhyatm-6.jpg',
+  'मंदिर एवं शिवलिंग का दृश्य',
+  'Temple and Shivalinga view (MyAdhyatm)',
+  'बाबा भदेश्वर नाथ मंदिर और शिवलिंग का दृश्य (MyAdhyatm)',
+  'mandir', 'approved')
 on conflict do nothing;
 
 insert into public.announcements (title, body, priority, status)
